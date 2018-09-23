@@ -1,65 +1,65 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int AlturaMin(int a[], int raiz, int numeros){
-  int esq = 2*raiz+1;
-  int dir = 2*raiz+2;
+int AlturaMin(int lista[], int raiz, int numeros){
+  int esquerda = 2*raiz+1;
+  int direita = 2*raiz+2;
 
-  if(a[raiz] == -1){
+  if(lista[raiz] == -1){
     return 0;
   }
 
-  if(dir < numeros){
-    if(a[esq] == -1){
+  if(direita < numeros){
+    if(lista[esquerda] == -1){
       return 1;
     }
 
-    if(a[dir] == -1 && a[esq] != 12){
+    if(lista[direita] == -1 && lista[esquerda] != 12){
       return 1;
     }
 
-    if(a[dir] == -1 && a[esq] == 12){
+    if(lista[direita] == -1 && lista[esquerda] == 12){
       return 2;
     }
 
-    if(AlturaMin(a, esq, numeros) >= AlturaMin(a, dir, numeros)){
-      return AlturaMin(a, dir, numeros) + 1;
+    if(AlturaMin(lista, esquerda, numeros) >= AlturaMin(lista, direita, numeros)){
+      return AlturaMin(lista, direita, numeros) + 1;
     }else{
-      return AlturaMin(a, esq, numeros) + 1;
+      return AlturaMin(lista, esquerda, numeros) + 1;
     }
   }else{
-    if(esq < numeros){
-        return AlturaMin(a, esq, numeros) + 1;
+    if(esquerda < numeros){
+        return AlturaMin(lista, esquerda, numeros) + 1;
       }else{
         return 1;
     }
   }
 }
 
-int AlturaMax(int a[], int root, int numeros)  
+int AlturaMax(int lista[], int raiz, int numeros)  
 { 
-  int esq = (2*root) + 1;
-  int dir = (2*root) + 2;
+  int esquerda = (2*raiz) + 1;
+  int direita = (2*raiz) + 2;
 
-  if (a[root] == -1){
+  if (lista[raiz] == -1){
     return 0;
   } 
   else
   {
-    if(dir < numeros){
-      int laltura = AlturaMax(a, esq, numeros); 
-      int raltura = AlturaMax(a, dir, numeros); 
+    if(direita < numeros){
+      int alturaEsquerda = AlturaMax(lista, esquerda, numeros); 
+      int alturaDireita = AlturaMax(lista, direita, numeros); 
     
-      if (laltura > raltura){
-        return(laltura + 1);
+      if (alturaEsquerda > alturaDireita){
+        return(alturaEsquerda + 1);
       }else{
-        return(raltura + 1);
+        return(alturaDireita + 1);
       }
     }
     else{
-      if(esq < numeros){
-        int laltura = AlturaMax(a, esq, numeros);
-        return(laltura + 1);
+      if(esquerda < numeros){
+        int alturaEsquerda = AlturaMax(lista, esquerda, numeros);
+        return(alturaEsquerda + 1);
       }
       else{
         return 1;
