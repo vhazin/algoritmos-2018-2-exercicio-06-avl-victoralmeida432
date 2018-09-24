@@ -19,7 +19,11 @@ elemento *criarArvore(int data){
 }
 
 elemento *addArvore(elemento *elemento, int data){
-  
+
+  if(data == -1){
+    return(elemento);
+  }
+
   if(elemento == NULL){
     return(criarArvore(data));
   }
@@ -28,50 +32,23 @@ elemento *addArvore(elemento *elemento, int data){
   }else if(data > elemento->data){
     elemento -> direita = addArvore(elemento->direita, data);
   }
-
+  
   return(elemento);
 }
-
-int minDepth(elemento *root) 
-{ 
-
-    if (root == NULL) 
-        return 0; 
-  
  
-    if (root->esquerda == NULL && root->direita == NULL) 
-       return 1; 
-  
+int getHeight(elemento* root) {
+    return root == NULL ? 0 : 1 +
+        max(getHeight(root->esquerda), getHeight(root->direita));
+}
 
-    if (!root->esquerda) 
-       return minDepth(root->direita) + 1; 
-  
-
-    if (!root->direita) 
-       return minDepth(root->esquerda) + 1; 
-  
-    return min(minDepth(root->esquerda), minDepth(root->direita)) + 1; 
-} 
-
-int maxDepth(elemento *root) 
-{ 
- 
-    if (root == NULL) 
-        return 0; 
-  
- 
-    if (root->esquerda == NULL && root->direita == NULL) 
-       return 1; 
-  
- 
-    if (!root->esquerda) 
-       return minDepth(root->direita) + 1; 
-   
-    if (!root->direita) 
-       return minDepth(root->esquerda) + 1; 
-  
-    return max(minDepth(root->esquerda), minDepth(root->direita)) + 1; 
-} 
+ int isBalanced(elemento* root) {
+        if (root == NULL) {
+            return 1;
+        }
+        int esquerda = getHeight(root->esquerda);
+        int direita = getHeight(root->direita);
+        return abs(esquerda - direita) <= 1 && isBalanced(root->esquerda) && isBalanced(root->direita);
+  }
 
 int main(void) {
   int casos, numeros, data;
@@ -80,19 +57,18 @@ int main(void) {
 
   while(casos--){
     scanf("%d", &numeros);
-    elemento *root = NULL;
+    elemento *root;
     root = malloc(sizeof(elemento));
+    root = NULL;
 
     for(int i = 0; i < numeros; i++){
       scanf("%d", &data);
       root = addArvore(root, data);
     }
 
-    int min = minDepth(root);
-    int max = maxDepth(root);
+    int balance = isBalanced(root);
 
-
-    if(max-min<=1){
+    if(balance){
       printf("T\n");
     }else{
       printf("F\n");
